@@ -11,3 +11,11 @@ drop table persona;
 
 drop table caballo;
 
+drop type tecnica;
+
+drop type tipo_caballo;
+
+drop type tipo_carrera;
+
+
+

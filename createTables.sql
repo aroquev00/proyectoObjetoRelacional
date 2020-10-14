@@ -1,9 +1,15 @@
+create type tipo_carrera as enum ('400m pista', '2km pista', 'a campo traviesa', 'carrera con obstáculos', 'tiro-de-carro');
+
+create type tipo_caballo as enum ('Pura Sangre', 'Quarter', 'Árabe', 'Appaloosa');
+
+create type tecnica as enum ('carreras planas', 'carreras de campo', 'tiro', 'salto');
+
 create table caballo (
     registro varchar(30),
     nombre varchar,
     fecha_nacimiento date,
     genero char,
-    tipo varchar,
+    tipo tipo_caballo,
     primary key (registro)
 );
 
@@ -16,8 +22,6 @@ create table persona
     primary key (rfc)
     );
 
---create table persona of personaUdt;
-
 create table duenio
     (ganancias numeric) inherits (persona);
 
@@ -25,7 +29,7 @@ create table duenio
 create table entrenador
     (anios_experiencia int,
     tecnica_entrena varchar[], -- deben ser referencias a caballo registro
-    entrena varchar[]
+    entrena tecnica[]
     ) inherits (persona);
 
 create table jockey (
@@ -39,7 +43,7 @@ create table carrera (
   num_carrera int,
   bolsa_premio numeric,
   fecha date,
-  tipo_carrera varchar,
+  tipo_carrera tipo_carrera,
   primary key (num_carrera)
 );
 
