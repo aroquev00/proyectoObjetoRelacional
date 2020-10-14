@@ -24,7 +24,8 @@ create table duenio
 
 create table entrenador
     (anios_experiencia int,
-    tecnica_entrena varchar[] -- deben ser referencias a caballo registro
+    tecnica_entrena varchar[], -- deben ser referencias a caballo registro
+    entrena varchar[]
     ) inherits (persona);
 
 create table jockey (
