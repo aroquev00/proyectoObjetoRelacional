@@ -11,7 +11,7 @@ returns trigger as
     $func$ language plpgsql;
 
 create trigger insert_entrenado
-    before insert
+    before insert or update of entrena
     on entrenador
     for each row execute procedure tgr_checkEntrena();
 
