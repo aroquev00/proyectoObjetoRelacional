@@ -1,3 +1,5 @@
+drop table propiedad;
+
 drop table arranque;
 drop table carrera;
 
@@ -10,6 +12,8 @@ drop table persona;
 
 
 drop table caballo;
+
+drop type sexo;
 
 drop type tecnica;
 
