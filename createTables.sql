@@ -24,6 +24,7 @@ create table duenio (
 create table entrenador (
     anios_experiencia int,
     tecnica_entrena tecnica[],
+    salario numeric,
     entrena varchar[] -- deben ser referencias a caballos
 ) inherits (persona);
 
