@@ -17,13 +17,14 @@ returns trigger as
             --where (new.un_caballo = any (entrena));
             -- actualizar duenio
             update duenio
-            set ganancias = ganancias + (bolsa * 0.8)
+            set ganancias = ganancias + (bolsa * 0.8 * (select (porcentaje / 100) from propiedad where registrocaballo = new.un_caballo and rfcduenio = rfc))
             where rfc = (select rfcduenio from propiedad where registrocaballo = new.un_caballo);
         end if;
         return new;
     end;
     $func$ language plpgsql;
 
+drop trigger insert_posicion_final_arranque on arranque;
 
 create trigger insert_posicion_final_arranque
     before insert or update of posicion_final
