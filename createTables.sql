@@ -17,14 +17,15 @@ create table persona(
 
 create table duenio (
     ganancias numeric,
-    es_duenio varchar[] -- No se si deberia apuntar a Propiedad o a Caballo Directamente
+    es_duenio varchar[] -- Arreglo de referencias a Propiedades
 ) inherits (persona);
 
 
 create table entrenador (
     anios_experiencia int,
     tecnica_entrena tecnica[],
-    entrena varchar[] -- deben ser referencias a caballos
+    salario numeric,
+    entrena varchar[] -- Arreglo de referencias a Caballos
 ) inherits (persona);
 
 create table jockey (
@@ -32,7 +33,7 @@ create table jockey (
     peso numeric,
     edad int,
     salario numeric,
-    arranques int[][] -- deben referencias a arranque
+    arranques int[][] -- Referencias a arranques, como la PK de arranque es compuesta (entidad débil), por eso es un arreglo bidimensional
 ) inherits (persona);
 
 create table caballo (
