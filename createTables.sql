@@ -15,9 +15,14 @@ create table persona(
     primary key (rfc)
 );
 
+create type Es_duenio as (
+    registroCaballo varchar(30),
+    rfcDuenio varchar(13)
+);
+
 create table duenio (
     ganancias numeric,
-    es_duenio varchar[] -- Arreglo de referencias a Propiedades
+    es_duenio Es_duenio[] -- Arreglo de referencias a Propiedades
 ) inherits (persona);
 
 
@@ -36,16 +41,36 @@ create table jockey (
     arranques int[][] -- Referencias a arranques, como la PK de arranque es compuesta (entidad débil), por eso es un arreglo bidimensional
 ) inherits (persona);
 
+create type Propiedad_de as (
+    registroCaballo varchar(30),
+    rfcDuenio varchar(13)
+);
+
+create type En_carrera as (
+    num_carrera int,
+    posicion_inicio int
+);
+
 create table caballo (
     registro varchar(30),
     nombre varchar,
     fecha_nacimiento date,
     genero char,
     tipo tipo_caballo,
-    entrenado_por varchar(13),
-    en_carrera int[][],
+    entrenado_por varchar(13), -- Esto tiene que ser una FK a entrenador
+    en_carrera En_carrera[], -- Referencias a arranques
+    propiedad_de Propiedad_de[],
     primary key (registro)
-    --foreign key (entrenado_por) references entrenador(rfc)
+);
+
+create table propiedad (
+    porcentaje numeric,
+    cantidad numeric,
+    registroCaballo varchar(30),
+    rfcDuenio varchar(13),
+    foreign key (registroCaballo) references caballo(registro),
+    foreign key (rfcDuenio) references duenio(rfc),
+    primary key (registroCaballo, rfcDuenio)
 );
 
 create table carrera (
