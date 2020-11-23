@@ -13,7 +13,7 @@ returns trigger as
 drop trigger check_entrenador on entrenador;
 
 create trigger check_entrenador
-    before insert or update
+    before insert or update of rfc
     on entrenador
     for each row execute procedure tgr_checkEntrenador();
 
@@ -32,7 +32,7 @@ returns trigger as
 drop trigger check_duenio on duenio;
 
 create trigger check_duenio
-    before insert or update
+    before insert or update of rfc
     on duenio
     for each row execute procedure tgr_checkDuenio();
 
@@ -51,6 +51,6 @@ returns trigger as
 drop trigger check_jockey on jockey;
 
 create trigger check_jockey
-    before insert or update
+    before insert or update of rfc
     on jockey
     for each row execute procedure tgr_checkJockey();
