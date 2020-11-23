@@ -36,7 +36,6 @@ create trigger insert_Tecnica_caballo
     on caballo
     for each row execute procedure tgr_checkTecnicaCaballo();
 
-drop trigger insert_Tecnica_caballo on caballo;
 
 
 --trigger para revisar que al insertar un caballo a un arranque, el caballo debe tener un entrenador que domine la técnica
@@ -75,3 +74,5 @@ create trigger insert_CarreraCorr_caballo
     for each row execute procedure tgr_Tipo_carrera_Caballo();
 
 
+drop trigger insert_Tecnica_caballo on caballo;
+drop trigger insert_CarreraCorr_caballo on arranque;
