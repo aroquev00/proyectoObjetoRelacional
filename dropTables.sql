@@ -21,5 +21,11 @@ drop type tipo_caballo;
 
 drop type tipo_carrera;
 
+drop type Es_duenio;
 
+drop type Arranques;
+
+drop type Propiedad_de;
+
+drop type En_carrera;
 
