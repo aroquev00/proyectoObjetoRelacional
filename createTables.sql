@@ -15,25 +15,46 @@ create table persona(
     primary key (rfc)
 );
 
+create type Es_duenio as (
+    registroCaballo varchar(30),
+    rfcDuenio varchar(13)
+);
+
 create table duenio (
     ganancias numeric,
-    es_duenio varchar[] -- No se si deberia apuntar a Propiedad o a Caballo Directamente
+    es_duenio Es_duenio[] -- Arreglo de referencias a Propiedades
 ) inherits (persona);
 
 
 create table entrenador (
     anios_experiencia int,
     tecnica_entrena tecnica[],
-    entrena varchar[] -- deben ser referencias a caballos
+    salario numeric,
+    entrena varchar[] -- Arreglo de referencias a Caballos
 ) inherits (persona);
+
+create type Arranques as (
+    num_carrera int,
+    posicion_inicio int
+);
 
 create table jockey (
     estatura numeric,
     peso numeric,
     edad int,
     salario numeric,
-    arranques int[][] -- deben referencias a arranque
+    arranques Arranques[] -- Referencias a arranques
 ) inherits (persona);
+
+create type Propiedad_de as (
+    registroCaballo varchar(30),
+    rfcDuenio varchar(13)
+);
+
+create type En_carrera as (
+    num_carrera int,
+    posicion_inicio int
+);
 
 create table caballo (
     registro varchar(30),
@@ -41,10 +62,20 @@ create table caballo (
     fecha_nacimiento date,
     genero char,
     tipo tipo_caballo,
-    entrenado_por varchar(13),
-    en_carrera int[][],
+    entrenado_por varchar(13), -- Esto tiene que ser una FK a entrenador
+    en_carrera En_carrera[], -- Referencias a arranques
+    propiedad_de Propiedad_de[],
     primary key (registro)
-    --foreign key (entrenado_por) references entrenador(rfc)
+);
+
+create table propiedad (
+    porcentaje numeric,
+    cantidad numeric,
+    registroCaballo varchar(30),
+    rfcDuenio varchar(13),
+    foreign key (registroCaballo) references caballo(registro),
+    --foreign key (rfcDuenio) references duenio(rfc),
+    primary key (registroCaballo, rfcDuenio)
 );
 
 create table carrera (
@@ -52,7 +83,7 @@ create table carrera (
   bolsa_premio numeric,
   fecha date,
   tipo_carrera tipo_carrera,
-  posiciones int[], -- referencias a arranques
+  posiciones int[], -- Posicion de inicio
   primary key (num_carrera)
 );
 
@@ -62,19 +93,10 @@ create table arranque (
   posicion_final int,
   color varchar(10),
   un_caballo varchar,
-  un_jinete varchar(13),
+  un_jinete varchar(13), -- FK de jockey
   primary key (en_carrera, posicion_inicio),
   foreign key (en_carrera) references carrera(num_carrera),
   foreign key (un_caballo) references caballo(registro)
-  --foreign key (un_jinete) references jockey(rfc)
 );
 
-create table propiedad (
-    duenio varchar(13),
-    caballo varchar(30),
-    porcentaje numeric,
-    cantidad numeric,
-    primary key (duenio, caballo),
-    --foreign key (duenio) references duenio(rfc),
-    foreign key (caballo) references caballo(registro)
-);
+
