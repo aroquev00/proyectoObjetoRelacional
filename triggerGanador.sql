@@ -18,7 +18,7 @@ returns trigger as
             -- actualizar duenio
             update duenio
             set ganancias = ganancias + (bolsa * 0.8)
-            where rfc = (select propiedad_de from caballo where registro = new.un_caballo); -- a esto le falta
+            where rfc = (select rfcduenio from propiedad where registrocaballo = new.un_caballo);
         end if;
         return new;
     end;
