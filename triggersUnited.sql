@@ -38,6 +38,7 @@ create trigger Carrera_posiciones
     for each row execute procedure tgr_addpos_carrera();
 
 
+
 create or replace function tgr_checkEntrena()
 returns trigger as
     $func$
