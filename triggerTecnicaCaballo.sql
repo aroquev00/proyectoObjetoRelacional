@@ -36,7 +36,7 @@ returns trigger as
 drop trigger insert_Tecnica_caballo on caballo;
 
 create trigger insert_Tecnica_caballo
-    before insert or update of tipo
+    before insert or update of entrenado_por
     on caballo
     for each row execute procedure tgr_checkTecnicaCaballo();
 
