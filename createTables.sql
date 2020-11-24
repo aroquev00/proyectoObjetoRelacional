@@ -11,7 +11,7 @@ create table persona(
     nombre varchar(50),
     sexo sexo,
     direccion varchar(100),
-    telefono varchar(10),
+    telefono varchar(20),
     primary key (rfc)
 );
 

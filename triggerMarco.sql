@@ -6,7 +6,7 @@ returns trigger as
     $func$
     begin
         update caballo
-            set en_carrera = array_append(en_carrera, cast (row ( new.num_carrera, new.posicion_inicio ) as En_carrera))  -- Agrega la referencia a Propiedad al arreglo
+            set en_carrera = array_append(en_carrera, cast (row ( new.en_carrera, new.posicion_inicio ) as En_carrera))  -- Agrega la referencia a Propiedad al arreglo
             where registro = new.un_caballo;
         return new;
     end;
@@ -28,7 +28,7 @@ returns trigger as
     $func$
     begin
         update jockey
-            set arranques = array_append(arranques, cast (row ( new.num_carrera, new.posicion_inicio ) as Arranques))  -- Agrega la referencia a Propiedad al arreglo
+            set arranques = array_append(arranques, cast (row ( new.en_carrera, new.posicion_inicio ) as Arranques))  -- Agrega la referencia a Propiedad al arreglo
             where rfc = new.un_jinete;
         return new;
     end;

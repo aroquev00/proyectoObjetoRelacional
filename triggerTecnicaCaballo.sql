@@ -5,6 +5,9 @@ create or replace function tgr_checkTecnicaCaballo()
 returns trigger as
     $func$
     begin
+        if new.entrenado_por is null then
+            return new;
+        end if;
         if new.tipo ='Pura Sangre' then
             if not exists (select tecnica_entrena FROM  entrenador where rfc=new.entrenado_por and tecnica_entrena  && '{"carreras de campo" , "carreras planas"}')then
                 RAISE exception  'La técnica del caballo no es dominada por el entrenador';
@@ -30,6 +33,7 @@ returns trigger as
     end;
     $func$ language plpgsql;
 
+drop trigger insert_Tecnica_caballo on caballo;
 
 create trigger insert_Tecnica_caballo
     before insert or update of tipo
@@ -68,11 +72,12 @@ returns trigger as
     end;
     $func$ language plpgsql;
 
+drop trigger insert_CarreraCorr_caballo on arranque;
+
 create trigger insert_CarreraCorr_caballo
     before insert or update of un_caballo
     on arranque
     for each row execute procedure tgr_Tipo_carrera_Caballo();
 
 
-drop trigger insert_Tecnica_caballo on caballo;
-drop trigger insert_CarreraCorr_caballo on arranque;
+

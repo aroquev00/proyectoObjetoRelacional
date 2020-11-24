@@ -6,9 +6,11 @@ returns trigger as
         update entrenador
         SET entrena = array_append(entrena, new.registro)
         where new.entrenado_por= entrenador.rfc;
+        return new;
     end;
     $func$ language plpgsql;
 
+drop trigger caballo_entrenador on caballo;
 
 create trigger caballo_entrenador
     before insert or update of  entrenado_por
@@ -24,8 +26,11 @@ returns trigger as
         update carrera
         SET posiciones = array_append(posiciones, new.posicion_inicio)
         where new.en_carrera=carrera.num_carrera;
+        return new;
     end;
     $func$ language plpgsql;
+
+drop trigger Carrera_posiciones on arranque;
 
 create trigger Carrera_posiciones
     before insert or update of posicion_inicio
