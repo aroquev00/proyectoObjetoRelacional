@@ -1,21 +1,19 @@
-
---trigger para agregar una nueva carrera al array en_carrera de caballo cuando este se inserta en algún arranque
-
-create or replace function tgr_addEn_carrera()
+--trigger para agregar un caballo al entrenador cuando se le asigne a un caballo ese entrenador
+create or replace function tgr_addcaballo_entrenador()
 returns trigger as
    $func$
     begin
-        update caballo
-        SET en_carrera = array_append(en_carrera, ARRAY[new.en_carrera, new.posicion_inicio])
-        where new.un_caballo=caballo.registro;
+        update entrenador
+        SET entrena = array_append(entrena, new.registro)
+        where new.entrenado_por= entrenador.rfc;
     end;
     $func$ language plpgsql;
 
 
-create trigger En_Carrera_Caballo
-    before insert or update of  un_caballo
-    on arranque
-    for each row execute procedure tgr_addEn_carrera();
+create trigger caballo_entrenador
+    before insert or update of  entrenado_por
+    on caballo
+    for each row execute procedure tgr_addcaballo_entrenador();
 
 --Trigger que inserta una posición nueva al array posiciones en carrera cuando se crea una
 
