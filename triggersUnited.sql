@@ -38,6 +38,25 @@ create trigger Carrera_posiciones
     for each row execute procedure tgr_addpos_carrera();
 
 
+create or replace function tgr_checkEntrena()
+returns trigger as
+    $func$
+    begin
+        if ((not exists (select registro from caballo)) or (not (new.entrena <@ (select array_agg(registro) from caballo)))) then
+            RAISE exception 'entrena debe contener llaves foraneas de caballo';
+        end if;
+        return new;
+    end;
+    $func$ language plpgsql;
+
+drop trigger insert_caballo_entrenado on entrenador;
+
+create trigger insert_caballo_entrenado
+    before insert or update of entrena
+    on entrenador
+    for each row execute procedure tgr_checkEntrena();
+
+
 
 create or replace function tgr_posicionFinal()
 returns trigger as
@@ -115,7 +134,66 @@ drop trigger insert_arranque_arranques on arranque;
 create trigger insert_arranque_arranques
     before insert or update of un_jinete
     on arranque
-    for each row execute procedure tgr_arranques();
+    for each row execute procedure tgr_arranques(); 
+
+
+-- Check entrenador
+create or replace function tgr_checkEntrenador()
+returns trigger as
+    $func$
+    begin
+        if (new.rfc in (select rfc from persona)) then
+            RAISE exception 'El RFC del entrenador debe ser único';
+        end if;
+        return new;
+    end;
+    $func$ language plpgsql;
+
+drop trigger check_entrenador on entrenador;
+
+create trigger check_entrenador
+    before insert or update of rfc
+    on entrenador
+    for each row execute procedure tgr_checkEntrenador();
+
+-- Check duenio
+create or replace function tgr_checkDuenio()
+returns trigger as
+    $func$
+    begin
+        if (new.rfc in (select rfc from persona)) then
+            RAISE exception 'El RFC del dueño debe ser único';
+        end if;
+        return new;
+    end;
+    $func$ language plpgsql;
+
+drop trigger check_duenio on duenio;
+
+create trigger check_duenio
+    before insert or update of rfc
+    on duenio
+    for each row execute procedure tgr_checkDuenio();
+
+-- Check jockey
+create or replace function tgr_checkJockey()
+returns trigger as
+    $func$
+    begin
+        if (new.rfc in (select rfc from persona)) then
+            RAISE exception 'El RFC del jockey debe ser único';
+        end if;
+        return new;
+    end;
+    $func$ language plpgsql;
+
+drop trigger check_jockey on jockey;
+
+create trigger check_jockey
+    before insert or update of rfc
+    on jockey
+    for each row execute procedure tgr_checkJockey();
+
 
 -- Función para el trigger insert_propiedad_es_duenio
 create or replace function tgr_esDuenio()
